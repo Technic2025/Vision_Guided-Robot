@@ -84,9 +84,13 @@ while True:
 
         if len(full_msg) - HEADERSIZE == msglen:
             img = pickle.loads(full_msg[HEADERSIZE:])
+            #Show live camera feed
+            cv2.imshow("Robot View", np.array(img, dtype=np.uint8))
+            cv2.waitKey(1) & 0xFF
             #Pass camera data into network
             decision = img_process(img)
             #Operate robot based on vision processing
             drive(decision)
             new_msg = True
             full_msg = b""
+    cv2.destroyAllWindows()
